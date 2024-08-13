@@ -8,3 +8,4 @@ include   -- Header files for common procedures
 libraries -- Single processor linear algebra routines
 RHMC      -- RHMC and measurements
 
+# Spin-N-Dynamical
