@@ -1,4 +1,4 @@
-This directory contains parallel code for RHMC simulations of a two-flavor reduced staggered fermion system with SU(2) gauge symmetry, including related measurements.
+This directory contains parallel code for RHMC simulations of a N(4,5,6)-flavor reduced staggered fermion system with SP(N) gauge symmetry, including related measurements.
 
 See RHMC/README for the main README.
 
