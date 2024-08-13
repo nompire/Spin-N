@@ -12,20 +12,36 @@ void ranmom() {
 
   FORALLSITES(i, s) {
     for(mu = XUP ; mu <=TUP ; mu++) {
-      clear_su2mat(&(s->mom[mu]));
+      clear_mat(&(s->mom[mu]));
       for (j = 0; j < NUMGEN; j++) {
 #ifdef SITERAND
-        grn = (double)gaussian_rand_no(&(s->site_prn));
+        grn = gaussian_rand_no(&(s->site_prn));
        
 #else
         
-        grn = (double)gaussian_rand_no(&node_prn);
+        grn = gaussian_rand_no(&node_prn);
         
 #endif
-        scalar_mult_add_su2_matrix(&(s->mom[mu]) ,&(Lambda[j]), grn, &(s->mom[mu]));
+        scalar_mult_add_matrix(&(s->mom[mu]) ,&(Lambda[j]), grn, &(s->mom[mu]));
       }
     }
   }
+
+
+
+
+  FORALLSITES(i,s){
+	          clear_mat(&(s->p_sigma));
+		  for(j=0 ; j < NUMYUK ; j++) {
+		  #ifdef SITERAND
+		      grn =  gaussian_rand_no(&(s->site_prn));
+	          #else
+		      grn =  gaussian_rand_no(&node_prn);
+		  #endif
+	              scalar_mult_add_matrix(&(s->p_sigma) ,&(Lambda2[j]), grn, &(s->p_sigma));
+                  }
+  }
+
 }
 
 

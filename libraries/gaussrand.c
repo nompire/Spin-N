@@ -6,7 +6,7 @@
 // prn_pt is a pointer passed to myrand()
 #include "../include/config.h"
 #include <math.h>
-#include "../include/su2.h"
+#include "../include/sp.h"
 #include "../include/random.h"
 
 Real gaussian_rand_no(double_prn *prn_pt) {

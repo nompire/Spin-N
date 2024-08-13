@@ -8,18 +8,18 @@ complex ploop(int dir) {
   register site *s;
   msg_tag *tag;
   complex sum, plp;
-  su2_matrix *staple,*tempmat1;
+  matrix *staple,*tempmat1;
   int t, N = nt;
 
   sum = cmplx(0, 0);
   
-  staple = (su2_matrix *)malloc(sites_on_node*sizeof(su2_matrix));
+  staple = (matrix *)malloc(sites_on_node*sizeof(matrix));
   if(staple == NULL){
     printf("ploop: Can't allocate temporary\n");
     terminate(1);
   }
 
-  tempmat1 = (su2_matrix *)malloc(sites_on_node*sizeof(su2_matrix));
+  tempmat1 = (matrix *)malloc(sites_on_node*sizeof(matrix));
   if(tempmat1 == NULL){
     printf("ploop: Can't allocate temporary\n");
     terminate(1);
@@ -45,7 +45,7 @@ complex ploop(int dir) {
 
   for (t = 1; t < N; t++) {
    
-    tag = start_gather_field(tempmat, sizeof(su2_matrix),
+    tag = start_gather_field(tempmat, sizeof(matrix),
                                     dir,EVENANDODD, gen_pt[0]);
     wait_gather(tag);
   
@@ -55,20 +55,21 @@ complex ploop(int dir) {
   
   if(t==1){
   
-    mult_su2_nn(&(s->link[dir]),(su2_matrix *)gen_pt[0][i],&staple[i]);
+    mult_mat_nn(&(s->link[dir]),(matrix *)gen_pt[0][i],&staple[i]);
     
 
   }
   else{
   
-    mult_su2_nn(&staple[i],(su2_matrix *)gen_pt[0][i],&(tempmat[i]));
+    mult_mat_nn(&staple[i],(matrix *)gen_pt[0][i],&(tempmat[i]));
     staple[i] = tempmat[i];
   }
   }
   
   FORALLSITES(i,s){
    
-   tempmat1[i] = *(su2_matrix *)(gen_pt[0][i]);
+   tempmat1[i] = *(matrix *)(gen_pt[0][i]);}
+FORALLSITES(i,s){
    tempmat[i] = tempmat1[i];
   
   }
@@ -78,7 +79,7 @@ complex ploop(int dir) {
 
   FORALLSITES(i,s){
     if(s->t != 0) continue;
-    plp = trace_su2(&staple[i]);
+    plp = trace(&staple[i]);
     CSUM(sum, plp);   // Running complex sum
   }
 

@@ -6,10 +6,10 @@
 */
 #include "../include/config.h"
 #include "../include/complex.h"
-#include "../include/su2.h"
+#include "../include/sp.h"
 
 //#ifndef FAST
-void make_anti_hermitian( su2_matrix *m3, anti_hermitmat *ah3 ) {
+void make_anti_hermitian(matrix *m3, anti_hermitmat *ah3 ) {
 Real temp;
 	
 	temp = (m3->e[0][0].imag + m3->e[1][1].imag)*0.5;

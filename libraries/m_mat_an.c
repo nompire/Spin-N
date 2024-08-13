@@ -1,6 +1,5 @@
-/******************  m_mat_an.c  (in su3.a) *****************************
+/******************  m_mat_an.c *****************************
 *									*
-* void mult_su3_an( su3_matrix *a,*b,*c )				*
 * matrix multiply, first matrix is adjoint 				*
 * C <-  A_adjoint*B							*
 */
@@ -8,14 +7,14 @@
 
 #include "../include/config.h"
 #include "../include/complex.h"
-#include "../include/su2.h"
+#include "../include/sp.h"
 
-void mult_su2_an( su2_matrix *a, su2_matrix *b, su2_matrix *c ){
+void mult_mat_an( matrix *a, matrix *b, matrix *c ){
 register int i,j,k;
 register complex x,y;
-    for(i=0;i<2;i++)for(j=0;j<2;j++){
+    for(i=0;i<DIMF;i++)for(j=0;j<DIMF;j++){
 	x.real=x.imag=0.0;
-	for(k=0;k<2;k++){
+	for(k=0;k<DIMF;k++){
 	    CMULJ_( a->e[k][i] , b->e[k][j], y );
 	    CSUM( x , y );
 	}

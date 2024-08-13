@@ -2,7 +2,7 @@
 // Clear a vector
 #include "../include/config.h"
 #include "../include/complex.h"
-#include "../include/su2.h"
+#include "../include/sp.h"
 
 void vec_conjug(vector *v,vector *u) {
 

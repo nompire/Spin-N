@@ -8,7 +8,7 @@
 
 // Uncomment to print out debugging messages
 //#define UPDATE_DEBUG
-#include "su2_includes.h"
+#include "sp_includes.h"
 #ifdef HAVE_IEEEFP_H
 #include <ieeefp.h>         // For "finite"
 #endif
@@ -23,17 +23,15 @@
 
 
 
-/*void update_scalar(Real eps) {
-#if (DIMF != 2)
-  #error "Assuming DIMF=2!"
-#endif
+void update_scalar(Real eps) {
+
   register int i;
   register site *s;
 
   FORALLSITES(i, s) {
-    scalar_mult_add_vector(&(s->sigma),&(s->p_sigma), eps ,&(s->sigma));
+    scalar_mult_add_matrix(&(s->sigma),&(s->p_sigma), eps ,&(s->sigma));
   }
-}*/
+}
 
 // -----------------------------------------------------------------
 // Omelyan version; ``dirty'' speeded-up version
@@ -59,7 +57,7 @@ double update_gauge_step(Real eps) {
 }
 // -----------------------------------------------------------------
 
-/*double update_scalar_step(Real eps) {
+double update_scalar_step(Real eps) {
   int nsw = nsteps[1], isw;
   double norm;
 
@@ -79,17 +77,18 @@ double update_gauge_step(Real eps) {
   }
   return (norm / nsw);
 }
-*/
+
 
 // -----------------------------------------------------------------
-int update_step(double *fnorm, double *gnorm,
+int update_step(double *fnorm, double *gnorm, double *snorm,
                 vector  **src, vector  ***psim) {
 
   int iters = 0, i_multi0, n;
   Real final_rsq, f_eps, g_eps, tr;
 
   f_eps = traj_length / (Real)nsteps[0];
-  g_eps = f_eps / (Real)(2.0 * nsteps[1]);
+  g_eps = f_eps; 
+	 // / (Real)(2.0 * nsteps[1]);
 
 
   for (n = 0; n < Nroot; n++) {
@@ -107,8 +106,11 @@ int update_step(double *fnorm, double *gnorm,
     *gnorm += tr;
     if ( tr > max_gf)
      max_gf = tr;
-
-
+    
+    tr = update_scalar_step(g_eps);
+    *snorm += tr;
+    if (tr > max_sf)
+        max_sf = tr;
     for (n = 0; n < Nroot; n++) {
       // Do conjugate gradient to get (Mdag M)^(-1 / 4) chi
       iters += congrad_multi(src[n], psim[n], niter, rsqmin, &final_rsq);
@@ -121,7 +123,11 @@ int update_step(double *fnorm, double *gnorm,
     *gnorm += tr;
     if ( tr > max_gf)
      max_gf = tr;
-
+     
+    tr = update_scalar_step(g_eps);
+    *snorm += tr;
+    if (tr > max_sf)
+     max_sf = tr;
 
     for (n = 0; n < Nroot; n++) {
       // Do conjugate gradient to get (Mdag M)^(-1 / 4) chi
@@ -185,6 +191,8 @@ int update() {
  
   gnorm = 0.0;
   max_gf = 0.0;
+  snorm = 0.0;
+  max_sf = 0.0;
   for (n = 0; n < Nroot; n++) {
     fnorm[n] = 0.0;
     max_ff[n] = 0.0;
@@ -206,10 +214,10 @@ int update() {
   Real xrandom;   // For accept/reject test
   // Copy link field to old_link
   gauge_field_copy(F_OFFSET(link[0]), F_OFFSET(old_link[0]));
-
+  scalar_field_copy(F_OFFSET(sigma),F_OFFSET(old_sigma));
 #endif
   // Do microcanonical updating
-  iters += update_step(fnorm, &gnorm,src, psim);
+  iters += update_step(fnorm, &gnorm,&snorm,src, psim);
 
   // Find ending action
   // Reuse data from update_step, don't need CG to get (Mdag M)^(-1) chi
@@ -241,13 +249,15 @@ int update() {
     if (traj_length > 0.0) {
 
     gauge_field_copy(F_OFFSET(link[0]), F_OFFSET(old_link[0]));
+    scalar_field_copy(F_OFFSET(sigma),F_OFFSET(old_sigma));
     }
     node0_printf("REJECT: delta S = %.4g start S = %.12g end S = %.12g\n",
                  change, startaction, endaction);
   }
   else {
     node0_printf("ACCEPT: delta S = %.4g start S = %.12g end S = %.12g\n",
-                 change, startaction, endaction);
+                  change, startaction, endaction);
+    accept++;
   }
 #else
   // Only print check if not doing HMC
@@ -271,7 +281,7 @@ int update() {
       node0_printf("MONITOR_FORCE_FERMION%d %.4g %.4g\n",
                    n, fnorm[n] / (double)(2 * nsteps[0]), max_ff[n]);
     }
-    if((no_calls%10==0)&&(!first_time)){
+  if((no_calls%10==0)&&(!first_time)){
     node0_printf("ACCEPTANCE RATE  %.4g\n",(double)accept/(double)no_calls );
     no_calls=0;
     accept=0;

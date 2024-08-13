@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include "../include/su2.h"
+#include "../include/sp.h"
 #include "../include/macros.h"
 #include "../include/complex.h"
 #include "../include/comdefs.h"

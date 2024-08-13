@@ -19,7 +19,7 @@
 #include "../include/int32type.h"
 #include "../include/macros.h"    // For MAXFILENAME
 #include "../include/file_types.h"
-#include "../include/su2.h"
+#include "../include/sp.h"
 #include "../include/dirs.h"      // For NDIMS
 // -----------------------------------------------------------------
 

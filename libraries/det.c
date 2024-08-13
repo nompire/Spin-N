@@ -1,16 +1,16 @@
-/******************  det_su2.c  (in su2.a) ******************************
+/******************  det.c                 ******************************
 *									*
-* complex det_su2( su2_matrix *a )					*
-* Complex determinant of an su2 matrix 					*
+*                                         				*
+* Complex determinant of matrix 					*
 */
 #include "../include/config.h"
 #include "../include/complex.h"
-#include "../include/su2.h"
+#include "../include/sp.h"
 #include <stdio.h>
 
 /* FIX THIS - more efficient to take cross product of first two
    rows, dot with third. */
-void det_su2( su2_matrix *a) {
+void det(matrix *a) {
 register complex cc,dd,s;
  double d;
     CMUL(a->e[0][0],a->e[1][1],cc);

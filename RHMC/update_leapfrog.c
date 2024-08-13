@@ -5,24 +5,39 @@
 
 // Uncomment to print out debugging messages
 #define UPDATE_DEBUG
-#include "su2_includes.h"
+#include "sp_includes.h"
 #ifdef HAVE_IEEEFP_H
 #include <ieeefp.h>         // For "finite"
 #endif
 // -----------------------------------------------------------------
 
+void update_scalar(Real eps) {
+
+	  register int i;
+	    register site *s;
+
+	      FORALLSITES(i, s) {
+		          scalar_mult_add_matrix(&(s->sigma),&(s->p_sigma), eps ,&(s->sigma));
+			    }
+}
+
+
+
+
+
+
 // -----------------------------------------------------------------
-int update_step(Real *fnorm, Real *gnorm, vector **src, vector ***psim) {
+int update_step(Real *fnorm, Real *gnorm,Real *snorm,vector **src, vector ***psim) {
   int step, iters = 0, n;
   int STEP;
-  Real final_rsq, eps = traj_length / (Real)nsteps[0];
+  Real final_rsq, g_eps,eps = traj_length / (Real)nsteps[0];
+  g_eps = eps;
+    
   double tr;
-   
-  
-  
-  node0_printf("eps %.4g\n", eps);
- for(step = 0; step < (int) (0.5 * nsteps[0] ) ; step++){
-  for (n = 0; n < Nroot; n++) {
+    
+ 
+  for(step = 0; step < (int) (0.5 * nsteps[0] ) ; step++){
+    for (n = 0; n < Nroot; n++) {
       // Do conjugate gradient to get (Mdag M)^(-1 / 4) chi
       iters += congrad_multi(src[n], psim[n], niter, rsqmin, &final_rsq);
       tr = fermion_force(0.5*eps, src[n], psim[n]); //Updates the gauge_momenta at the end of function
@@ -30,32 +45,43 @@ int update_step(Real *fnorm, Real *gnorm, vector **src, vector ***psim) {
     fnorm[n] += tr;
       if (tr > max_ff[n])
         max_ff[n] = tr;
-  }
-
- //Pure bosonic update where for each fermion update we have 
- for(STEP=0; STEP < nsteps[1] ; STEP ++) { 
- 
-   // Inner steps p(t) u(t)
-    tr = gauge_force(0.5*(eps/nsteps[1])); // Updates the gauge_momenta at the end of function gauge_force(Real eps);
-    *gnorm += tr;
-    if (tr > max_gf)
-      max_gf = tr;
+    }
 
     
+    //node0_printf("Pure bosonic update\n");    
+    //Pure bosonic update where for each fermion update we have 
+    for(STEP=0; STEP < nsteps[1] ; STEP ++) { 
+ 
+    // Inner steps p(t) u(t)
+             tr = gauge_force(0.5*(eps/nsteps[1])); // Updates the gauge_momenta at the end of function gauge_force(Real eps);
+            *gnorm += tr;
+             if (tr > max_gf)
+               max_gf = tr;
+    
+             tr = scalar_force(0.5*(g_eps/nsteps[1]));
+             *snorm += tr;
+             if (tr > max_sf)
+	           max_sf = tr;    
   
    
-   update_u(eps/nsteps[1]);
-
+             update_u(eps/nsteps[1]);
+             update_scalar(eps/nsteps[1]);
    
-   tr = gauge_force(0.5*(eps/nsteps[1])); // Updates the gauge_momenta at the end of function gauge_force(Real eps);
-    *gnorm += tr;
-    if (tr > max_gf)
-      max_gf = tr;
+             tr = gauge_force(0.5*(eps/nsteps[1])); // Updates the gauge_momenta at the end of function gauge_force(Real eps);
+             *gnorm += tr;
+             if (tr > max_gf)
+               max_gf = tr;
+    
+             tr = scalar_force(0.5*(g_eps/nsteps[1]));
+             *snorm += tr;
+             if (tr > max_sf)
+               max_sf = tr;
+    
+      }
    
-  }
   
- //pure fermionic update 
-  for (n = 0; n < Nroot; n++) {
+    //pure fermionic update 
+    for (n = 0; n < Nroot; n++) {
       // Do conjugate gradient to get (Mdag M)^(-1 / 4) chi
       iters += congrad_multi(src[n], psim[n], niter, rsqmin, &final_rsq);
       tr = fermion_force(0.5*eps, src[n], psim[n]); //Updates the gauge_momenta at the end of function
@@ -119,7 +145,9 @@ int update() {
   // Find initial action
   startaction = action(src, psim);
   gnorm = 0.0;
+  snorm = 0.0;
   max_gf = 0.0;
+  max_sf = 0.0;
   for (n = 0; n < Nroot; n++) {
     fnorm[n] = 0.0;
     max_ff[n] = 0.0;
@@ -129,13 +157,14 @@ int update() {
   Real xrandom;   // For accept/reject test
   // Copy gauge field to old_link
   gauge_field_copy(F_OFFSET(link[0]), F_OFFSET(old_link[0]));
- 
+  scalar_field_copy(F_OFFSET(sigma),F_OFFSET(old_sigma));
+
 #endif
   // Do microcanonical updating
   
 
   
- iters += update_step(fnorm, &gnorm, src, psim);
+ iters += update_step(fnorm, &gnorm, &snorm, src, psim);
 
 
   // Find ending action
@@ -174,6 +203,8 @@ int update() {
   if (exp(-change) < (double)xrandom) {
     if (traj_length > 0.0) {
       gauge_field_copy(F_OFFSET(old_link[0]), F_OFFSET(link[0]));
+      scalar_field_copy(F_OFFSET(sigma),F_OFFSET(old_sigma));
+
     }
     node0_printf("REJECT: delta S = %.4g start S = %.12g :end S = %.12g\n",
                  change, startaction, endaction);

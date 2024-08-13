@@ -10,7 +10,7 @@
 // where n is an integer.
 //
 // Possible keywords are listed in io_lat.h
-#include "su2_includes.h"
+#include "sp_includes.h"
 // -----------------------------------------------------------------
 
 

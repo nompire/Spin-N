@@ -6,7 +6,7 @@
 #include "../include/defines.h"
 #include "../include/macros.h"    // For MAXFILENAME
 #include "../include/io_lat.h"    // For gauge_file
-#include "../include/su2.h"
+#include "../include/sp.h"
 #include "../include/random.h"    // For double_prn
 #include "../include/dirs.h"      // For NDIMS
 // -----------------------------------------------------------------
@@ -31,34 +31,37 @@ typedef struct {
 
 
  //Gauge field
- su2_matrix link[4];
+ matrix link[4];
+
+ //Scalar field
+ matrix sigma;
 
 #ifdef HMC_ALGORITHM
- su2_matrix old_link[4]; // For accept/reject
+ matrix old_link[4]; // For accept/reject
+ matrix old_sigma;
 #endif
 
-//Antihermitian momentum matrices
+ //Gauge momenta	 
+ matrix mom[4];
 
-//anti_hermitmat mom[4];
+ //Scalar momenta
+ matrix p_sigma;
 
-su2_matrix mom[4];
+ //Link matrices for defining curly U_{mu}(x)
+ matrix temp_link[4];
 
-//#ifdef CORR
-//su2_matrix prop; //Propagators for fermion correlators
-//#endif
+ //Temporary matrices for use in computing fermion forces
+ matrix f_U[4];
 
-//Link matrices for defining curly U_{mu}(x)
-su2_matrix temp_link[4];
-
-//Temporary matrices for use in computing fermion forces
-su2_matrix f_U[4];
-
+ //temporary matrices for use in computation of scalar fermion force contribution
+ matrix f_sigma;
 
 //Wilson staple
-su2_matrix staple,tempmat1,tempmat2;
-
+matrix staple,tempmat1,tempmat2;
+//Wilson loop
+matrix s_link, s_link_f, t_link_f;
 //Random gauge transformation
-su2_matrix G, tmp;
+matrix G, tmp;
 
 } site;
 // -----------------------------------------------------------------
@@ -85,14 +88,16 @@ EXTERN Real traj_length;
 
 // Epsilon tensor and matrices to translate (mu, nu) to linear index
 // (either anti-symmetric or self-dual)
-//EXTERN Real perm[DIMF][DIMF][DIMF][DIMF];
+EXTERN Real perm[DIMF][DIMF][DIMF][DIMF];
 //EXTERN int as_index[DIMF][DIMF];
 //EXTERN int sd_index[DIMF][DIMF];
 
 // More global parameters
 EXTERN Real rsqmin, rsqprop;
 EXTERN Real BETA;
+EXTERN Real G;
 EXTERN Real site_mass;
+EXTERN Real link_mass;
 EXTERN double sigmasum;
 EXTERN char startfile[MAXFILENAME], savefile[MAXFILENAME];
 EXTERN int startflag;     // Beginning lattice: CONTINUE, RELOAD, FRESH
@@ -113,16 +118,17 @@ EXTERN Real ampdeg, *amp, *shift;
 EXTERN Real ampdeg4, *amp4, *shift4;
 EXTERN Real ampdeg8, *amp8, *shift8;
 EXTERN int Nroot, Norder;
-EXTERN Real gnorm, *fnorm, max_gf, *max_ff;
+EXTERN Real gnorm, *fnorm, max_gf, *max_ff,max_sf,snorm;
 
 // Momenta and forces for the scalars
 
-//EXTERN su2_matrix *temp_link1[4];
-EXTERN su2_matrix *sigma[4];
+EXTERN matrix *sigma[NDIMS];
+EXTERN matrix *sigma_phi;
+//Euclidean Dirac gamma matrices
+EXTERN matrix gamma_dirac[DIMF+1];
+EXTERN matrix Lambda[NUMGEN];
 
-EXTERN su2_matrix Lambda[NUMGEN];
-
-
+EXTERN matrix Lambda2[6];
 // Each node maintains a structure with the pseudorandom number
 // generator state
 EXTERN double_prn node_prn;
@@ -146,8 +152,8 @@ EXTERN vector *tempvec2;
 
 
 
-EXTERN su2_matrix *tempmat;
-//EXTERN su2_matrix *tmpmat2; // used in Polyakov loop calculation
+EXTERN matrix *tempmat;
+//EXTERN matrix *tmpat2; // used in Polyakov loop calculation
 
 //Structures defined for computing the generator matrices
 
@@ -172,9 +178,9 @@ EXTERN char **gen_pt[N_POINTERS];
 EXTERN int Nstoch;                  // Number of stochastic sources
 EXTERN int Nsrc;                    // Number of point sources
 EXTERN int pnts[MAX_SRC][NDIMS];    // Point sources
-EXTERN su2_matrix *prop;
-EXTERN su2_matrix *prop2;
-EXTERN su2_matrix *prop3;
+EXTERN matrix *prop;
+EXTERN matrix *prop2;
+EXTERN matrix *prop3;
 #endif
 
 #ifdef EIG

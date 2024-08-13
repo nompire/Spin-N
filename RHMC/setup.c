@@ -1,6 +1,6 @@
 // -----------------------------------------------------------------
-// SU(2) gauge model with red. stagg'd fermions system setup
-#include "su2_includes.h"
+// SP(N) gauge model with red. stagg'd fermions system setup
+#include "sp_includes.h"
 #include "lattice.h"
 
 #define IF_OK if(status==0)
@@ -23,7 +23,7 @@ int initial_set() {
 #define XSTR(s) STR(s)
 #define STR(s) #s
     // end kludge
-    printf("SU(2) with reduced staggered fermions\n");
+    printf("SP(4) with reduced staggered fermions\n");
     printf("Microcanonical simulation with refreshing\n");
     printf("Machine = %s, with %d nodes\n", machine_type(), numnodes());
 #ifdef HMC_ALGORITHM
@@ -75,6 +75,7 @@ int initial_set() {
   iseed = par_buf.iseed;
 
   // Set up stuff for RHMC and multi-mass CG
+  
   Nroot = par_buf.Nroot;
   fnorm = malloc(Nroot * sizeof(fnorm));
   max_ff = malloc(Nroot * sizeof(max_ff));
@@ -127,7 +128,7 @@ void setup_phases() {
 // -----------------------------------------------------------------
 // Allocate space for fields
 void make_fields() {
-  double size = (double)(2.0 * sizeof(vector));
+  double size = (double)(5.0 * sizeof(vector));
   FIELD_ALLOC(src, vector);
   FIELD_ALLOC(dest, vector);
   
@@ -138,17 +139,20 @@ void make_fields() {
   FIELD_ALLOC(tempvec2, vector);
   //Temporary gauge fields ------might need more definitions as required.
   //Fermion force
-  FIELD_ALLOC_VEC(sigma,su2_matrix,4);
+  //
+  size += (double) (6 * sizeof(matrix));
+  FIELD_ALLOC_VEC(sigma,matrix,4);
+  FIELD_ALLOC(sigma_phi,matrix);
  //Plaquette action 
-  FIELD_ALLOC(tempmat,su2_matrix);
+  FIELD_ALLOC(tempmat,matrix);
 
 #ifdef CORR
   // Propagator for point-source condensates
-  size += (double)(2.0 * sizeof(su2_matrix));
-  FIELD_ALLOC(prop, su2_matrix);
+  size += (double)(2.0 * sizeof(matrix));
+  FIELD_ALLOC(prop, matrix);
 
-  FIELD_ALLOC(prop2, su2_matrix);
-  FIELD_ALLOC(prop3, su2_matrix);
+  FIELD_ALLOC(prop2, matrix);
+  FIELD_ALLOC(prop3, matrix);
 #endif  
 
 
@@ -189,7 +193,7 @@ int setup() {
   // Allocate space for fields
   make_fields();
 
-  
+  node0_printf("Nroot = %d\n",Nroot);  
 
   return prompt;
 }
@@ -226,12 +230,20 @@ int readin(int prompt) {
     IF_OK status += get_i(stdin, prompt, "traj_between_meas",
                           &par_buf.propinterval);
 
-    // SU(2) gauge coupling
+    // SP(N) gauge coupling
     IF_OK status += get_f(stdin, prompt, "BETA", &par_buf.BETA);
 
-    // On-site SU(2) invariant mass term
+    // On-site SP(N) invariant mass term
     IF_OK status += get_f(stdin, prompt, "site_mass", &par_buf.site_mass);
 
+ 
+    //Four fermi coupling
+    IF_OK status += get_f(stdin, prompt , "G" , &par_buf.G);
+    //SP(N) invariant link mass term
+    IF_OK status += get_f(stdin, prompt, "link_mass", &par_buf.link_mass);
+ 
+ 
+ 
     // Maximum conjugate gradient iterations
     IF_OK status += get_i(stdin, prompt, "max_cg_iterations", &par_buf.niter);
 
@@ -301,6 +313,8 @@ int readin(int prompt) {
 
   BETA = par_buf.BETA;
   site_mass = par_buf.site_mass;
+  G = par_buf.G;
+  link_mass = par_buf.link_mass;	  
   if (BETA == 0.0 && site_mass != 0.0) {
     node0_printf("Warning: Setting site_mass = 0 since BETA = 0\n");
     site_mass = 0.0;

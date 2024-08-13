@@ -8,7 +8,7 @@
 // We check all vectors for convergence and quit doing the converged ones
 
 //#define CG_DEBUG
-#include "su2_includes.h"
+#include "sp_includes.h"
 // -----------------------------------------------------------------
 
 

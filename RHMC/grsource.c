@@ -1,7 +1,7 @@
 // -----------------------------------------------------------------
 // Construct a gaussian random vector R, return src = (Ddag.D)^{1 / 8} R
 // Need to invert despite the positive power, since it is fractional
-#include "su2_includes.h"
+#include "sp_includes.h"
 
 // Return the number of iterations from the inversion
 int grsource(vector *src) {
@@ -10,6 +10,7 @@ int grsource(vector *src) {
   register site *s;
   int avs_iters;
   Real size_r;
+  Real inv_sqrt = 1.0/sqrt(2.0);
   vector **psim = malloc(Norder * sizeof(**psim));
 
   // Allocate psim (will be zeroed in congrad_multi)
@@ -22,19 +23,15 @@ int grsource(vector *src) {
   FORALLSITES(i, s) {
 #ifdef SITERAND
 
-  
-    src[i].c[0].real = 1.0/sqrt(2.0)*gaussian_rand_no(&(s->site_prn));
-    src[i].c[0].imag = 1.0/sqrt(2.0)*gaussian_rand_no(&(s->site_prn));
-    src[i].c[1].real = 1.0/sqrt(2.0)*gaussian_rand_no(&(s->site_prn));
-    src[i].c[1].imag = 1.0/sqrt(2.0)*gaussian_rand_no(&(s->site_prn));
-    
+    for(j=0;j<DIMF;j++){
+      src[i].c[j].real = inv_sqrt*gaussian_rand_no(&(s->site_prn));
+      src[i].c[j].imag = inv_sqrt*gaussian_rand_no(&(s->site_prn));
+    }
 #else
-     
-    src[i].c[0].real = 1.0/sqrt(2.0)*gaussian_rand_no(&node_prn);
-    src[i].c[0].imag = 1.0/sqrt(2.0)*gaussian_rand_no(&node_prn);
-    src[i].c[1].real = 1.0/sqrt(2.0)*gaussian_rand_no(&node_prn);
-    src[i].c[1].imag = 1.0/sqrt(2.0)*gaussian_rand_no(&node_prn);
-
+    for(j=0;j<DIMF;j++){ 
+    src[i].c[j].real = inv_sqrt*gaussian_rand_no(&node_prn);
+    src[i].c[j].imag = inv_sqrt*gaussian_rand_no(&node_prn);
+    }
 #endif
   }
 
@@ -45,6 +42,7 @@ int grsource(vector *src) {
     source_norm += (double)magsq_vec(&(src[i]));
     
   }
+   
   g_doublesum(&source_norm);
   
   node0_printf("source_norm in grsource %.4g\n", source_norm);

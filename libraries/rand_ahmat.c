@@ -9,7 +9,7 @@
 #include "../include/config.h"
 #include <math.h>
 #include "../include/complex.h"
-#include "../include/su2.h"
+#include "../include/sp.h"
 
 void random_anti_hermitian( anti_hermitmat *mat_antihermit, double_prn *prn_pt) {
 Real r3;

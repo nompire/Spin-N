@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>             // For print_var.c, setup.c, gauge_info.c
-#include "../include/su2.h"
+#include "../include/sp.h"
 #include "../include/macros.h"
 #include "lattice.h"
 #include "../include/comdefs.h"
@@ -19,43 +19,47 @@
 // // -----------------------------------------------------------------
 // // Prototypes for functions in high level code
 int setup();
-void gen_su2();
 void setup_rhmc();
+void setup_gamma();
 int readin(int prompt);
 int update();
 void update_h(Real eps);
 void update_u(Real eps);
+void update_scalar(Real eps);
 //
 // // Gaussian random source
 int grsource(vector *src);
 //
 // // Action routines
 double action(vector **src, vector ***sol);
-//
+double scalar_action();
 double fermion_action();
-//
+
+// Momenta routines
 double hmom_action();
-//
 void ranmom();
-//
+
+// Wilson plaquette
+void plaquette_a(double *ss_plaq, double *st_plaq);
+
+
+// Force routines
 double gauge_force(Real eps);
-// // Force routines
-//
-double fermion_force(Real eps, vector *source, vector **psim);
+double scalar_force(Real eps);
 void compute_fermion_force(vector *psol,vector *sol);
+double fermion_force(Real eps, vector *src, vector **sol);
+
 // // Fermion matrix--vector operators (D & D^2) and multi-mass CG
 void fermion_op(vector *src, vector *dest, int sign);
 void adj_fermion_op(vector *src,vector *dest);
 void DSq(vector *src, vector *dest);
 int congrad_multi(vector *src, vector **psim,
                    int MaxCG, Real RsdCG, Real *size_r);
-//
-// Epsilon tensor
-// Real order(int i, int j, int k, int l);
-void epsilon();
+
 double parity(int coords[NDIMS]);
 // Utility to copy scalar field in site
 void gauge_field_copy(field_offset src, field_offset dest);
+void scalar_field_copy(field_offset src, field_offset dest);
 // ----------------------------------------------------------------
 //
 //
@@ -64,10 +68,15 @@ void gauge_field_copy(field_offset src, field_offset dest);
 // ----------------------------------------------------------------
 // More measurements
 #ifdef CORR
+// Epsilon tensor
+Real order(int i, int j, int k, int l);
+void epsilon();
 // Four-fermion condensate and its susceptibility
 int condensates();
 // Polyakov Line
 complex ploop(int dir);
+// Wiilson loop
+void w_loop();
 // Two- and four-fermion correlator measurements
 int correlators(int *pnt);
 #endif

@@ -1,22 +1,20 @@
-/****************  m_matvec_s.c  (in su2.a) *****************************
-*                 *
-* void mult_su2_mat_vec_sum( su2_matrix *a, su2_vector *b,*c )    *
-* su2_matrix times su2_vector multiply and add to another su2_vector  *
-* C  <-  C + A*B              *
+/****************  m_matvec_s.c *****************************
+*                                                           *
+* C  <-  C + A*B                                            *
 */
 #include "../include/config.h"
 #include "../include/complex.h"
-#include "../include/su2.h"
+#include "../include/sp.h"
 
 //#ifndef FAST
-/* su2_matrix times su2_vector multiply and add to another su2_vector */
+/* matrix times vector multiply and add to another vector */
 /* c  <-  A*b+c */
-void mult_su2_mat_vec_sum( su2_matrix *a,vector *b, vector *c ){
+void mult_mat_vec_sum(matrix *a,vector *b, vector *c ){
 register int i,j;
 register complex x,y;
-    for(i=0;i<2;i++){
+    for(i=0;i<DIMF;i++){
   x.real=x.imag=0.0;
-  for(j=0;j<2;j++){
+  for(j=0;j<DIMF;j++){
       CMUL( a->e[i][j] , b->c[j] , y )
       CSUM( x , y );
   }

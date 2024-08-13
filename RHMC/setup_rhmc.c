@@ -2,7 +2,7 @@
 // Coefficients for (Mdag M)^(-1 / 4) and (Mdag M)^(1 / 8)
 // Note the relative sign between fractional powers!
 // For now simply copy in remez output, switch using Norder
-#include "su2_includes.h"
+#include "sp_includes.h"
 // -----------------------------------------------------------------
 
 
@@ -1260,6 +1260,7 @@ void setup_rhmc() {
   node0_printf("Using Nroot = %d\n", Nroot);
   node0_printf("RHMC Norder %d for spectral range ", Norder);
   
+    
 
   switch(Norder) {
     case 5:

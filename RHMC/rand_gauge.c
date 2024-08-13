@@ -34,20 +34,20 @@ void randomize()
   for (m=0 ; m < NUMGEN ; m++){
   
   
-    clear_su2mat(&(s->tmp));
-    scalar_mult_add_su2_matrix(&(s->tmp),&(Lambda[m]), gaussian_rand_no(&(s->site_prn)) , &(s->tmp)); 
+    clear_mat(&(s->tmp));
+    scalar_mult_add_matrix(&(s->tmp),&(Lambda[m]), gaussian_rand_no(&(s->site_prn)) , &(s->tmp)); 
    }
-   exp_su2_matrix(&(s->tmp),&(s->G));
+   exp_matrix(&(s->tmp),&(s->G));
    
 
 #else
  
   for(m=0 ; m < NUMGEN ; m++){
   
-    clear_su2mat(&(s->tmp));
-    scalar_mult_add_su2_matrix(&(s->tmp), &(Lambda[m]) , gaussian_rand_no(&node_prn) , &(s->tmp));
+    clear_mat(&(s->tmp));
+    scalar_mult_add_matrix(&(s->tmp), &(Lambda[m]) , gaussian_rand_no(&node_prn) , &(s->tmp));
   }
-   exp_su2_matrix(&(s->tmp),&(s->G));
+   exp_matrix(&(s->tmp),&(s->G));
    
 
 #endif
@@ -58,19 +58,19 @@ void gauge_trans()
 {
   register int i,mu;
   site *s;
-  su2_matrix temp;
+  matrix temp;
   msg_tag *tag[4];
 
   FORALLUPDIR(mu) 
-    tag[mu] = start_gather_site(F_OFFSET(G),sizeof(su2_matrix),mu,EVENANDODD,
+    tag[mu] = start_gather_site(F_OFFSET(G),sizeof(matrix),mu,EVENANDODD,
 		       gen_pt[mu]);
 
   FORALLUPDIR(mu) {
     wait_gather(tag[mu]);
     FORALLSITES(i,s) {
 
-       mult_su2_an(&(s->G), &(s->link[mu]), &temp);
-       mult_su2_nn(&temp, (su2_matrix *)gen_pt[mu][i],
+       mult_mat_an(&(s->G), &(s->link[mu]), &temp);
+       mult_mat_nn(&temp, (matrix *)gen_pt[mu][i],
 		       &(s->link[mu]));
 
     }

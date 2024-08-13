@@ -1,4 +1,4 @@
-# Gauge system with lcoal SU(2) symmetry
+# Gauge system with lcoal SP(N) symmetry
 #
 # Generic make-include file
 # This template file defines rules and macros common to all architectures
@@ -17,11 +17,11 @@
 
 MYINCLUDEDIR = .
 INCLUDEDIR = ../include
-#Where the su2 libraries are
+#Where the spin libraries are
 LIBDIR = ../libraries
 
 GLOBAL_HEADERS = ${INCLUDEDIR}/config.h      \
-                 ${INCLUDEDIR}/su2.h         \
+                 ${INCLUDEDIR}/sp.h         \
                  ${INCLUDEDIR}/comdefs.h     \
                  ${INCLUDEDIR}/macros.h      \
                  ${INCLUDEDIR}/field_alloc.h \
@@ -31,14 +31,14 @@ GLOBAL_HEADERS = ${INCLUDEDIR}/config.h      \
 
 MY_HEADERS = lattice.h \
              params.h  \
-             su2_includes.h
+             sp_includes.h
 
 HEADERS = ${GLOBAL_HEADERS} ${MY_HEADERS} ${INLINE_HEADERS}
 
 # All required object files
 # Basic set from current directory
 MY_OBJECTS = setup.o      \
-             setup_lambda.o \
+             setup_gamma.o \
              action.o     \
              info.o       \
              utilities.o  \
@@ -65,7 +65,7 @@ OBJECTS = ${MY_OBJECTS} ${G_OBJECTS} \
           ${LAYOUT} ${ADD_OBJECTS} ${EXTRA_OBJECTS}
 
 #Libraries for su2 functions
-QCDLIB = ${LIBDIR}/su2.${PRECISION}.a
+QCDLIB = ${LIBDIR}/sp.${PRECISION}.a
 LIBRARIES = ${QCDLIB}
 
 # Default rule for C compilation
@@ -89,38 +89,38 @@ ${OBJECTS} : ${HEADERS} ${LASTMAKE} ${ALL_MAKES}
 
 ##### Targets:
 # -DEIG needs lapack and blas
-su2_hmc::
+sp_hmc::
 	${MAKE} -f ${MAKEFILE} target "MYTARGET= $@" \
 	"DEFINES = ${DEFINES} -DPHI_ALGORITHM -DHMC_ALGORITHM " \
 	"EXTRA_OBJECTS = control.o update_leapfrog.o update_h.o update_u.o setup_rhmc.o"
 
-su2_meas::
+sp_meas::
 	${MAKE} -f ${MAKEFILE} target "MYTARGET= $@" \
 	"DEFINES = ${DEFINES} -DPHI_ALGORITHM -DCORR " \
-	"EXTRA_OBJECTS = control_meas.o correlators.o ploop.o setup_rhmc.o"
+	"EXTRA_OBJECTS = control_meas.o correlators.o ploop.o w_loop.o setup_rhmc.o setup_perm.o"
 
-su2_hmc_meas::
+sp_hmc_meas::
 	${MAKE} -f ${MAKEFILE} target "MYTARGET= $@" \
 	"DEFINES = ${DEFINES} -DPHI_ALGORITHM -DHMC_ALGORITHM -DCORR " \
-	"EXTRA_OBJECTS = control.o ploop.o update_leapfrog.o update_h.o update_u.o setup_rhmc.o correlators.o"
+	"EXTRA_OBJECTS = control.o ploop.o w_loop.o update_leapfrog.o update_h.o update_u.o setup_rhmc.o setup_perm.o correlators.o"
 
-su2_eig::
+sp_eig::
 	${MAKE} -f ${MAKEFILE} target "MYTARGET= $@" \
 	"DEFINES = ${DEFINES} -DPHI_ALGORITHM -DEIG " \
 	"LIBRARIES = ${LIBRARIES} ${PLIB} " \
 	"LAPACK = -llapack -lblas " \
 	"EXTRA_OBJECTS = control_eig.o update_leapfrog.o update_h.o update_u.o setup_rhmc.o eig.o "
 # The target below have not been implemented
-su2_pfaff::
+sp_pfaff::
 	${MAKE} -f ${MAKEFILE} target "MYTARGET= $@" \
 	"DEFINES = ${DEFINES} -DPHI_ALGORITHM -DPFAFF " \
 	"EXTRA_OBJECTS = control_pfaff.o pfaff.o io_pfaff.o "
 
 # The targets below have not been used/tested recently
-su2_phi::
+sp_phi::
 	${MAKE} -f ${MAKEFILE} target "MYTARGET= $@" \
 	"DEFINES = ${DEFINES} -DPHI_ALGORITHM " \
-	"EXTRA_OBJECTS = control.o update_o.o update_h.o setup_rhmc.o "
+	"EXTRA_OBJECTS = control.o update_leapfrog.o update_h.o setup_rhmc.o "
 
 clean:
 	-/bin/rm -f *.o

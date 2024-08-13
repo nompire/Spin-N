@@ -26,9 +26,10 @@ typedef struct {
   int propinterval;       // Number of trajectories between measurements
   int startflag;          // What to do for beginning lattice
   int saveflag;           // What to do with lattice at end
-  Real BETA;                 // Gauge oupling
-  Real site_mass;         // On-site SU(2) invariant mass term
-  
+  Real BETA;              // Gauge oupling
+  Real site_mass;         // On-site SP(N) invariant mass term
+  Real G;                 // Four fermion coupling
+  Real link_mass;         // Gauge invariant link mass
 
   // Inversion parameters
   int niter;                    // Maximum number of CG iterations

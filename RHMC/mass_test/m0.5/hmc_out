@@ -1,0 +1,624 @@
+SP(4) with reduced staggered fermions
+Microcanonical simulation with refreshing
+Machine = Scalar processor, with 1 nodes
+Hybrid Monte Carlo algorithm
+Phi algorithm
+start: Sat Apr 13 21:21:10 2024
+
+type 0 for no prompts or 1 for prompts
+nx 4
+ny 4
+nz 4
+nt 4
+PBC -1
+iseed 41
+Nroot 1
+Norder 11
+Antiperiodic temporal boundary conditions
+LAYOUT = Hypercubes, options = hyper_prime,
+ON EACH NODE 4 x 4 x 4 x 4
+Mallocing 2.1 MBytes per core for lattice
+Mallocing 0.6 MBytes per core for fields
+Nroot = 1
+Computing generators for SP(N)
+Gamma[0]
+(0,0)	(0,0)	(1,0)	(0,0)	
+(0,0)	(0,0)	(0,0)	(1,0)	
+(1,0)	(0,0)	(0,0)	(0,0)	
+(0,0)	(1,0)	(0,0)	(0,0)	
+
+Gamma[1]
+(0,0)	(0,0)	(0,0)	(0,1)	
+(0,0)	(0,0)	(0,1)	(0,0)	
+(0,0)	(0,-1)	(0,0)	(0,0)	
+(0,-1)	(0,0)	(0,0)	(0,0)	
+
+Gamma[2]
+(0,0)	(0,0)	(0,0)	(-1,0)	
+(0,0)	(0,0)	(1,0)	(0,0)	
+(0,0)	(1,0)	(0,0)	(0,0)	
+(-1,0)	(0,0)	(0,0)	(0,0)	
+
+Gamma[3]
+(0,0)	(0,0)	(0,1)	(0,0)	
+(0,0)	(0,0)	(0,0)	(0,-1)	
+(0,-1)	(0,0)	(0,0)	(0,0)	
+(0,0)	(0,1)	(0,0)	(0,0)	
+
+Gamma[4]
+(-1,0)	(0,0)	(0,0)	(0,0)	
+(0,0)	(-1,0)	(0,0)	(0,0)	
+(0,0)	(0,0)	(1,0)	(0,0)	
+(0,0)	(0,0)	(0,0)	(1,0)	
+
+ Tr(gamma_mu * gamma_mu): 4 0 
+ Tr(gamma_mu * gamma_mu): 4 0 
+ Tr(gamma_mu * gamma_mu): 4 0 
+ Tr(gamma_mu * gamma_mu): 4 0 
+ Tr(gamma_mu * gamma_mu): 4 0 
+Trace of Lambdas
+Tr[T_0 T_0] = (-1, 0)
+Tr[T_1 T_1] = (-1, 0)
+Tr[T_2 T_2] = (-1, 0)
+Tr[T_3 T_3] = (-1, 0)
+Tr[T_4 T_4] = (-1, 0)
+Tr[T_5 T_5] = (-1, 0)
+Tr[T_6 T_6] = (-1, 0)
+Tr[T_7 T_7] = (-1, 0)
+Tr[T_8 T_8] = (-1, 0)
+Tr[T_9 T_9] = (-1, 0)
+Trace of Yukawas
+Tr[T_0 T_0] = (-1, 0)
+Gamma matrices setup completed
+Using Nroot = 1
+RHMC Norder 11 for spectral range [1e-5, 50]
+
+
+Reading parameters for evolution
+warms 200
+trajecs 2000
+traj_length 1
+nstep 40
+nstep_scalar 40
+traj_between_meas 10
+BETA 6.9
+site_mass 0.5
+G 0.1
+link_mass 0
+max_cg_iterations 10000
+error_per_site 1e-10
+Nstoch 8
+Nsrc 8
+pnt 0 0 0 0
+pnt 0 0 0 1
+pnt 0 0 1 0
+pnt 0 0 1 1
+pnt 0 1 0 0
+pnt 0 1 0 8
+pnt 0 1 1 0
+pnt 0 1 1 1
+random
+forget
+random gauge configuration loaded
+source_norm in grsource 1011
+Iters for source 44
+Calling CG in update_leapfrog -- original action
+No of iteration in CG = 88
+fermion0 1011.1325 momenta 5316.92 plaquette -9395.0254 scalar action 133.74487sum -2933.228
+Wilson Plaquette 5.3187418
+
+Calling CG in update_leapfrog -- new action
+fermion0 1027.8223 momenta 2976.6291 plaquette -7047.6234 scalar action 120.91905sum -2922.253
+Wilson Plaquette 3.989823
+
+Exp(-change) = 1.7123674e-05
+deltaHovH = 0.0037416282
+REJECT: delta S = 10.98 start S = -2933.22802622 :end S = -2922.25297761
+MONITOR_FORCE_GAUGE   0.005513 0.0003035
+MONITOR_FORCE_FERMION0 0.0006237 0.001363
+source_norm in grsource 1049
+Iters for source 43
+Calling CG in update_leapfrog -- original action
+No of iteration in CG = 86
+fermion0 1049.1374 momenta 5285.4659 plaquette -9395.0254 scalar action 120.91905sum -2939.5031
+Wilson Plaquette 5.3187418
+
+Calling CG in update_leapfrog -- new action
+fermion0 1065.99 momenta 2986.0017 plaquette -7075.7913 scalar action 103.10359sum -2920.6961
+Wilson Plaquette 4.0057696
+
+Exp(-change) = 6.795447e-09
+deltaHovH = 0.0063980246
+REJECT: delta S = 18.81 start S = -2939.50307081 :end S = -2920.69605781
+MONITOR_FORCE_GAUGE   0.00549 0.0003025
+MONITOR_FORCE_FERMION0 0.0006187 0.001331
+source_norm in grsource 999.4
+Iters for source 43
+Calling CG in update_leapfrog -- original action
+No of iteration in CG = 86
+fermion0 999.36802 momenta 5227.3708 plaquette -9395.0254 scalar action 103.10359sum -3065.1831
+Wilson Plaquette 5.3187418
+
+Calling CG in update_leapfrog -- new action
+fermion0 1020.5685 momenta 2983.8718 plaquette -7156.4455 scalar action 99.865233sum -3052.1399
+Wilson Plaquette 4.0514298
+
+Exp(-change) = 2.1648875e-06
+deltaHovH = 0.0042552572
+REJECT: delta S = 13.04 start S = -3065.18305131 :end S = -3052.13990914
+MONITOR_FORCE_GAUGE   0.00547 0.0002998
+MONITOR_FORCE_FERMION0 0.0005922 0.001296
+source_norm in grsource 1007
+Iters for source 43
+Calling CG in update_leapfrog -- original action
+No of iteration in CG = 86
+fermion0 1006.5325 momenta 5198.7288 plaquette -9395.0254 scalar action 99.865233sum -3089.8989
+Wilson Plaquette 5.3187418
+
+Calling CG in update_leapfrog -- new action
+fermion0 1022.3632 momenta 2917.1816 plaquette -7121.3748 scalar action 98.834304sum -3082.9958
+Wilson Plaquette 4.0315754
+
+Exp(-change) = 0.0010045991
+deltaHovH = 0.0022341076
+REJECT: delta S = 6.903 start S = -3089.89892424 :end S = -3082.99575748
+MONITOR_FORCE_GAUGE   0.005474 0.0003023
+MONITOR_FORCE_FERMION0 0.0005994 0.001306
+source_norm in grsource 1040
+Iters for source 44
+Calling CG in update_leapfrog -- original action
+No of iteration in CG = 88
+fermion0 1039.5825 momenta 5203.4938 plaquette -9395.0254 scalar action 98.834304sum -3053.1148
+Wilson Plaquette 5.3187418
+
+Calling CG in update_leapfrog -- new action
+fermion0 1058.7215 momenta 2916.5614 plaquette -7109.8075 scalar action 90.294194sum -3044.2304
+Wilson Plaquette 4.0250269
+
+Exp(-change) = 0.00013853749
+deltaHovH = 0.0029099363
+REJECT: delta S = 8.884 start S = -3053.11481222 :end S = -3044.23044266
+MONITOR_FORCE_GAUGE   0.005453 0.0003005
+MONITOR_FORCE_FERMION0 0.0006298 0.001378
+source_norm in grsource 1057
+Iters for source 44
+Calling CG in update_leapfrog -- original action
+No of iteration in CG = 88
+fermion0 1057.3182 momenta 5027.3374 plaquette -9395.0254 scalar action 90.294194sum -3220.0756
+Wilson Plaquette 5.3187418
+
+Calling CG in update_leapfrog -- new action
+fermion0 1071.2564 momenta 2847.7003 plaquette -7232.0264 scalar action 103.71378sum -3209.3559
+Wilson Plaquette 4.0942178
+
+Exp(-change) = 2.210537e-05
+deltaHovH = 0.0033290181
+REJECT: delta S = 10.72 start S = -3220.07561876 :end S = -3209.35592875
+MONITOR_FORCE_GAUGE   0.005443 0.0002984
+MONITOR_FORCE_FERMION0 0.0006117 0.001324
+source_norm in grsource 1071
+Iters for source 44
+Calling CG in update_leapfrog -- original action
+No of iteration in CG = 88
+fermion0 1070.8622 momenta 5150.7039 plaquette -9395.0254 scalar action 103.71378sum -3069.7456
+Wilson Plaquette 5.3187418
+
+Calling CG in update_leapfrog -- new action
+fermion0 1078.9297 momenta 2878.5441 plaquette -7123.5331 scalar action 108.56855sum -3057.4908
+Wilson Plaquette 4.0327973
+
+Exp(-change) = 4.7619369e-06
+deltaHovH = 0.0039921406
+REJECT: delta S = 12.25 start S = -3069.74563921 :end S = -3057.49078314
+MONITOR_FORCE_GAUGE   0.005444 0.0003003
+MONITOR_FORCE_FERMION0 0.0006339 0.001352
+source_norm in grsource 1006
+Iters for source 44
+Calling CG in update_leapfrog -- original action
+No of iteration in CG = 88
+fermion0 1005.7822 momenta 5325.9175 plaquette -9395.0254 scalar action 108.56855sum -2954.7571
+Wilson Plaquette 5.3187418
+
+Calling CG in update_leapfrog -- new action
+fermion0 1036.5427 momenta 3009.3707 plaquette -7086.8939 scalar action 101.35115sum -2939.6293
+Wilson Plaquette 4.012055
+
+Exp(-change) = 2.6919177e-07
+deltaHovH = 0.0051198258
+REJECT: delta S = 15.13 start S = -2954.75713065 :end S = -2939.62928882
+MONITOR_FORCE_GAUGE   0.005499 0.000303
+MONITOR_FORCE_FERMION0 0.0006123 0.001339
+source_norm in grsource 1003
+Iters for source 44
+Calling CG in update_leapfrog -- original action
+No of iteration in CG = 87
+fermion0 1003.023 momenta 5266.8929 plaquette -9395.0254 scalar action 101.35115sum -3023.7584
+Wilson Plaquette 5.3187418
+
+Calling CG in update_leapfrog -- new action
+fermion0 1032.1667 momenta 2928.5761 plaquette -7079.2056 scalar action 110.45169sum -3008.0111
+Wilson Plaquette 4.0077025
+
+Exp(-change) = 1.4489277e-07
+deltaHovH = 0.0052078473
+REJECT: delta S = 15.75 start S = -3023.75836806 :end S = -3008.01109618
+MONITOR_FORCE_GAUGE   0.005521 0.0003042
+MONITOR_FORCE_FERMION0 0.0006066 0.001313
+source_norm in grsource 1022
+Iters for source 44
+Calling CG in update_leapfrog -- original action
+No of iteration in CG = 87
+fermion0 1022.1049 momenta 5282.2531 plaquette -9395.0254 scalar action 110.45169sum -2980.2157
+Wilson Plaquette 5.3187418
+
+Calling CG in update_leapfrog -- new action
+fermion0 1039.337 momenta 2899.3688 plaquette -7026.7621 scalar action 113.5167sum -2974.5396
+Wilson Plaquette 3.978013
+
+Exp(-change) = 0.0034266067
+deltaHovH = 0.0019046221
+REJECT: delta S = 5.676 start S = -2980.21574171 :end S = -2974.53955691
+MONITOR_FORCE_GAUGE   0.005481 0.000302
+MONITOR_FORCE_FERMION0 0.0006241 0.001344
+source_norm in grsource 1029
+Iters for source 44
+Calling CG in update_leapfrog -- original action
+No of iteration in CG = 87
+fermion0 1029.4757 momenta 5263.3349 plaquette -9395.0254 scalar action 113.5167sum -2988.6982
+Wilson Plaquette 5.3187418
+
+Calling CG in update_leapfrog -- new action
+fermion0 1046.0743 momenta 2962.616 plaquette -7088.7547 scalar action 105.68083sum -2974.3836
+Wilson Plaquette 4.0131084
+
+Exp(-change) = 6.0711069e-07
+deltaHovH = 0.0047895619
+REJECT: delta S = 14.31 start S = -2988.69815842 :end S = -2974.38360371
+MONITOR_FORCE_GAUGE   0.005495 0.000302
+MONITOR_FORCE_FERMION0 0.0006329 0.001375
+ACCEPTANCE RATE  0
+source_norm in grsource 1089
+Iters for source 44
+Calling CG in update_leapfrog -- original action
+No of iteration in CG = 87
+fermion0 1088.5563 momenta 5231.4677 plaquette -9395.0254 scalar action 105.68083sum -2969.3205
+Wilson Plaquette 5.3187418
+
+Calling CG in update_leapfrog -- new action
+fermion0 1101.8639 momenta 2957.4719 plaquette -7125.5387 scalar action 111.56824sum -2954.6346
+Wilson Plaquette 4.0339327
+
+Exp(-change) = 4.1876661e-07
+deltaHovH = 0.0049458965
+REJECT: delta S = 14.69 start S = -2969.32054987 :end S = -2954.63459779
+MONITOR_FORCE_GAUGE   0.005485 0.0003021
+MONITOR_FORCE_FERMION0 0.0006603 0.001443
+source_norm in grsource 1021
+Iters for source 44
+Calling CG in update_leapfrog -- original action
+No of iteration in CG = 87
+fermion0 1020.5193 momenta 5287.737 plaquette -9395.0254 scalar action 111.56824sum -2975.2009
+Wilson Plaquette 5.3187418
+
+Calling CG in update_leapfrog -- new action
+fermion0 1039.6854 momenta 2971.596 plaquette -7086.8868 scalar action 115.24003sum -2960.3654
+Wilson Plaquette 4.0120509
+
+Exp(-change) = 3.6061615e-07
+deltaHovH = 0.0049863698
+REJECT: delta S = 14.84 start S = -2975.20085477 :end S = -2960.36540302
+MONITOR_FORCE_GAUGE   0.005471 0.0003017
+MONITOR_FORCE_FERMION0 0.0006175 0.001327
+source_norm in grsource 1052
+Iters for source 43
+Calling CG in update_leapfrog -- original action
+No of iteration in CG = 86
+fermion0 1052.4251 momenta 5224.1647 plaquette -9395.0254 scalar action 115.24003sum -3003.1956
+Wilson Plaquette 5.3187418
+
+Calling CG in update_leapfrog -- new action
+fermion0 1075.3843 momenta 2961.0719 plaquette -7140.7429 scalar action 116.25533sum -2988.0313
+Wilson Plaquette 4.0425401
+
+Exp(-change) = 2.5955244e-07
+deltaHovH = 0.0050493903
+REJECT: delta S = 15.16 start S = -3003.19564086 :end S = -2988.03133379
+MONITOR_FORCE_GAUGE   0.005437 0.0002992
+MONITOR_FORCE_FERMION0 0.0006441 0.001414
+source_norm in grsource 1043
+Iters for source 44
+Calling CG in update_leapfrog -- original action
+No of iteration in CG = 87
+fermion0 1042.8358 momenta 5207.1799 plaquette -9395.0254 scalar action 116.25533sum -3028.7544
+Wilson Plaquette 5.3187418
+
+Calling CG in update_leapfrog -- new action
+fermion0 1062.471 momenta 2975.9052 plaquette -7175.3435 scalar action 119.15731sum -3017.81
+Wilson Plaquette 4.0621283
+
+Exp(-change) = 1.7656966e-05
+deltaHovH = 0.0036134922
+REJECT: delta S = 10.94 start S = -3028.75438155 :end S = -3017.81000136
+MONITOR_FORCE_GAUGE   0.005495 0.0003021
+MONITOR_FORCE_FERMION0 0.0006286 0.001357
+source_norm in grsource 1005
+Iters for source 44
+Calling CG in update_leapfrog -- original action
+No of iteration in CG = 87
+fermion0 1004.6482 momenta 5091.7192 plaquette -9395.0254 scalar action 119.15731sum -3179.5007
+Wilson Plaquette 5.3187418
+
+Calling CG in update_leapfrog -- new action
+fermion0 1017.379 momenta 2884.6841 plaquette -7187.8704 scalar action 120.41787sum -3165.3894
+Wilson Plaquette 4.0692201
+
+Exp(-change) = 7.4396247e-07
+deltaHovH = 0.0044382048
+REJECT: delta S = 14.11 start S = -3179.50068132 :end S = -3165.38940607
+MONITOR_FORCE_GAUGE   0.005451 0.0002997
+MONITOR_FORCE_FERMION0 0.0006137 0.001315
+source_norm in grsource 1043
+Iters for source 44
+Calling CG in update_leapfrog -- original action
+No of iteration in CG = 87
+fermion0 1042.6788 momenta 5208.0897 plaquette -9395.0254 scalar action 120.41787sum -3023.839
+Wilson Plaquette 5.3187418
+
+Calling CG in update_leapfrog -- new action
+fermion0 1055.6866 momenta 2937.8131 plaquette -7132.4941 scalar action 122.76158sum -3016.2328
+Wilson Plaquette 4.0378703
+
+Exp(-change) = 0.00049731535
+deltaHovH = 0.0025154402
+REJECT: delta S = 7.606 start S = -3023.83903623 :end S = -3016.23275002
+MONITOR_FORCE_GAUGE   0.005462 0.0003002
+MONITOR_FORCE_FERMION0 0.0006224 0.001341
+source_norm in grsource 1096
+Iters for source 44
+Calling CG in update_leapfrog -- original action
+No of iteration in CG = 88
+fermion0 1096.0339 momenta 5230.9144 plaquette -9395.0254 scalar action 122.76158sum -2945.3156
+Wilson Plaquette 5.3187418
+
+Calling CG in update_leapfrog -- new action
+fermion0 1118.644 momenta 2928.3471 plaquette -7105.3349 scalar action 122.27644sum -2936.0674
+Wilson Plaquette 4.0224949
+
+Exp(-change) = 9.6284049e-05
+deltaHovH = 0.0031399718
+REJECT: delta S = 9.248 start S = -2945.31557401 :end S = -2936.06736612
+MONITOR_FORCE_GAUGE   0.005444 0.0003003
+MONITOR_FORCE_FERMION0 0.0006444 0.001392
+source_norm in grsource 982.2
+Iters for source 44
+Calling CG in update_leapfrog -- original action
+No of iteration in CG = 88
+fermion0 982.21265 momenta 5179.8684 plaquette -9395.0254 scalar action 122.27644sum -3110.6679
+Wilson Plaquette 5.3187418
+
+Calling CG in update_leapfrog -- new action
+fermion0 1009.0359 momenta 2856.7903 plaquette -7076.3815 scalar action 114.79293sum -3095.7624
+Wilson Plaquette 4.0061037
+
+Exp(-change) = 3.3620681e-07
+deltaHovH = 0.0047917488
+REJECT: delta S = 14.91 start S = -3110.66792459 :end S = -3095.76238522
+MONITOR_FORCE_GAUGE   0.005473 0.0003022
+MONITOR_FORCE_FERMION0 0.0006018 0.001335
+source_norm in grsource 1025
+Iters for source 44
+Calling CG in update_leapfrog -- original action
+No of iteration in CG = 88
+fermion0 1024.8159 momenta 5248.2545 plaquette -9395.0254 scalar action 114.79293sum -3007.1621
+Wilson Plaquette 5.3187418
+
+Calling CG in update_leapfrog -- new action
+fermion0 1042.3674 momenta 2962.4663 plaquette -7117.7919 scalar action 115.17115sum -2997.7871
+Wilson Plaquette 4.029547
+
+Exp(-change) = 8.4814691e-05
+deltaHovH = 0.0031175711
+REJECT: delta S = 9.375 start S = -3007.16210598 :end S = -2997.7870642
+MONITOR_FORCE_GAUGE   0.00547 0.0002996
+MONITOR_FORCE_FERMION0 0.0006182 0.001332
+source_norm in grsource 1017
+Iters for source 43
+Calling CG in update_leapfrog -- original action
+No of iteration in CG = 86
+fermion0 1017.2861 momenta 5184.3424 plaquette -9395.0254 scalar action 115.17115sum -3078.2258
+Wilson Plaquette 5.3187418
+
+Calling CG in update_leapfrog -- new action
+fermion0 1032.3489 momenta 2947.2896 plaquette -7171.546 scalar action 124.06023sum -3067.8472
+Wilson Plaquette 4.0599785
+
+Exp(-change) = 3.1090548e-05
+deltaHovH = 0.0033716196
+REJECT: delta S = 10.38 start S = -3078.22584549 :end S = -3067.84723878
+MONITOR_FORCE_GAUGE   0.005466 0.0003004
+MONITOR_FORCE_FERMION0 0.0006023 0.001304
+ACCEPTANCE RATE  0
+source_norm in grsource 1074
+Iters for source 44
+Calling CG in update_leapfrog -- original action
+No of iteration in CG = 88
+fermion0 1074.333 momenta 5148.4302 plaquette -9395.0254 scalar action 124.06023sum -3048.202
+Wilson Plaquette 5.3187418
+
+Calling CG in update_leapfrog -- new action
+fermion0 1079.6819 momenta 2872.1426 plaquette -7106.8446 scalar action 119.1731sum -3035.847
+Wilson Plaquette 4.0233495
+
+Exp(-change) = 4.3083959e-06
+deltaHovH = 0.004053191
+REJECT: delta S = 12.35 start S = -3048.20196056 :end S = -3035.84701566
+MONITOR_FORCE_GAUGE   0.005506 0.0003042
+MONITOR_FORCE_FERMION0 0.0006304 0.001329
+source_norm in grsource 964.6
+Iters for source 44
+Calling CG in update_leapfrog -- original action
+No of iteration in CG = 88
+fermion0 964.60824 momenta 5248.6148 plaquette -9395.0254 scalar action 119.1731sum -3062.6293
+Wilson Plaquette 5.3187418
+
+Calling CG in update_leapfrog -- new action
+fermion0 975.63081 momenta 2867.7062 plaquette -7016.0715 scalar action 130.25817sum -3042.4763
+Wilson Plaquette 3.9719608
+
+Exp(-change) = 1.7687677e-09
+deltaHovH = 0.0065802879
+REJECT: delta S = 20.15 start S = -3062.62933017 :end S = -3042.47634744
+MONITOR_FORCE_GAUGE   0.005501 0.0003033
+MONITOR_FORCE_FERMION0 0.0005858 0.001254
+source_norm in grsource 1012
+Iters for source 44
+Calling CG in update_leapfrog -- original action
+No of iteration in CG = 87
+fermion0 1011.9616 momenta 5451.3058 plaquette -9395.0254 scalar action 130.25817sum -2801.4999
+Wilson Plaquette 5.3187418
+
+Calling CG in update_leapfrog -- new action
+fermion0 1048.4298 momenta 3003.3358 plaquette -6980.4838 scalar action 137.83018sum -2790.888
+Wilson Plaquette 3.9518137
+
+Exp(-change) = 2.4622272e-05
+deltaHovH = 0.0037879206
+REJECT: delta S = 10.61 start S = -2801.49989359 :end S = -2790.88803443
+MONITOR_FORCE_GAUGE   0.005498 0.0003027
+MONITOR_FORCE_FERMION0 0.0006408 0.001446
+source_norm in grsource 1005
+Iters for source 44
+Calling CG in update_leapfrog -- original action
+No of iteration in CG = 88
+fermion0 1004.7828 momenta 5259.3936 plaquette -9395.0254 scalar action 137.83018sum -2993.0188
+Wilson Plaquette 5.3187418
+
+Calling CG in update_leapfrog -- new action
+fermion0 1021.868 momenta 2944.653 plaquette -7078.6646 scalar action 136.69127sum -2975.4524
+Wilson Plaquette 4.0073962
+
+Exp(-change) = 2.3497343e-08
+deltaHovH = 0.0058691173
+REJECT: delta S = 17.57 start S = -2993.01881187 :end S = -2975.45243339
+MONITOR_FORCE_GAUGE   0.005474 0.0003023
+MONITOR_FORCE_FERMION0 0.0005965 0.0013
+source_norm in grsource 985.8
+Iters for source 44
+Calling CG in update_leapfrog -- original action
+No of iteration in CG = 88
+fermion0 985.83976 momenta 5218.254 plaquette -9395.0254 scalar action 136.69127sum -3054.2404
+Wilson Plaquette 5.3187418
+
+Calling CG in update_leapfrog -- new action
+fermion0 994.63647 momenta 2943.8705 plaquette -7113.1977 scalar action 126.50634sum -3048.1844
+Wilson Plaquette 4.0269462
+
+Exp(-change) = 0.0023437064
+deltaHovH = 0.0019828241
+REJECT: delta S = 6.056 start S = -3054.2404295 :end S = -3048.18440783
+MONITOR_FORCE_GAUGE   0.005476 0.0003007
+MONITOR_FORCE_FERMION0 0.0005753 0.001224
+source_norm in grsource 1019
+Iters for source 44
+Calling CG in update_leapfrog -- original action
+No of iteration in CG = 88
+fermion0 1018.892 momenta 5166.5066 plaquette -9395.0254 scalar action 126.50634sum -3083.1205
+Wilson Plaquette 5.3187418
+
+Calling CG in update_leapfrog -- new action
+fermion0 1035.8258 momenta 2899.5599 plaquette -7126.317 scalar action 127.9585sum -3062.9729
+Wilson Plaquette 4.0343733
+
+Exp(-change) = 1.7781781e-09
+deltaHovH = 0.0065348326
+REJECT: delta S = 20.15 start S = -3083.12053211 :end S = -3062.97285559
+MONITOR_FORCE_GAUGE   0.00549 0.0003017
+MONITOR_FORCE_FERMION0 0.00061 0.001317
+source_norm in grsource 1021
+Iters for source 44
+Calling CG in update_leapfrog -- original action
+No of iteration in CG = 88
+fermion0 1021.3458 momenta 5357.0941 plaquette -9395.0254 scalar action 127.9585sum -2888.627
+Wilson Plaquette 5.3187418
+
+Calling CG in update_leapfrog -- new action
+fermion0 1029.1398 momenta 3002.8371 plaquette -7037.5957 scalar action 128.45044sum -2877.1684
+Wilson Plaquette 3.9841461
+
+Exp(-change) = 1.0558212e-05
+deltaHovH = 0.0039668004
+REJECT: delta S = 11.46 start S = -2888.62698863 :end S = -2877.168382
+MONITOR_FORCE_GAUGE   0.005548 0.000305
+MONITOR_FORCE_FERMION0 0.0006072 0.001301
+source_norm in grsource 1010
+Iters for source 44
+Calling CG in update_leapfrog -- original action
+No of iteration in CG = 88
+fermion0 1009.5049 momenta 5257.3211 plaquette -9395.0254 scalar action 128.45044sum -2999.7489
+Wilson Plaquette 5.3187418
+
+Calling CG in update_leapfrog -- new action
+fermion0 1021.3479 momenta 2946.6574 plaquette -7084.8729 scalar action 128.69865sum -2988.169
+Wilson Plaquette 4.0109108
+
+Exp(-change) = 9.3519835e-06
+deltaHovH = 0.0038602971
+REJECT: delta S = 11.58 start S = -2999.7489397 :end S = -2988.1690176
+MONITOR_FORCE_GAUGE   0.005453 0.0002995
+MONITOR_FORCE_FERMION0 0.0006091 0.001314
+source_norm in grsource 980.4
+Iters for source 44
+Calling CG in update_leapfrog -- original action
+No of iteration in CG = 88
+fermion0 980.44525 momenta 5244.6809 plaquette -9395.0254 scalar action 128.69865sum -3041.2006
+Wilson Plaquette 5.3187418
+
+Calling CG in update_leapfrog -- new action
+fermion0 998.89331 momenta 2927.0529 plaquette -7078.6652 scalar action 124.61709sum -3028.1019
+Wilson Plaquette 4.0073965
+
+Exp(-change) = 2.0477998e-06
+deltaHovH = 0.0043070966
+REJECT: delta S = 13.1 start S = -3041.20059901 :end S = -3028.10185437
+MONITOR_FORCE_GAUGE   0.005484 0.000302
+MONITOR_FORCE_FERMION0 0.0006093 0.001331
+source_norm in grsource 1062
+Iters for source 44
+Calling CG in update_leapfrog -- original action
+No of iteration in CG = 87
+fermion0 1061.9257 momenta 5118.8331 plaquette -9395.0254 scalar action 124.61709sum -3089.6495
+Wilson Plaquette 5.3187418
+
+Calling CG in update_leapfrog -- new action
+fermion0 1071.1484 momenta 2867.0042 plaquette -7136.1791 scalar action 121.73397sum -3076.2926
+Wilson Plaquette 4.0399565
+
+Exp(-change) = 1.5818337e-06
+deltaHovH = 0.00432312
+REJECT: delta S = 13.36 start S = -3089.64952446 :end S = -3076.29259866
+MONITOR_FORCE_GAUGE   0.005426 0.0002983
+MONITOR_FORCE_FERMION0 0.0006188 0.001325
+ACCEPTANCE RATE  0
+source_norm in grsource 1034
+Iters for source 44
+Calling CG in update_leapfrog -- original action
+No of iteration in CG = 87
+fermion0 1033.6404 momenta 5129.7079 plaquette -9395.0254 scalar action 121.73397sum -3109.9432
+Wilson Plaquette 5.3187418
+
+Calling CG in update_leapfrog -- new action
+fermion0 1063.9258 momenta 2922.2787 plaquette -7210.3337 scalar action 130.47433sum -3093.6549
+Wilson Plaquette 4.0819371
+
+Exp(-change) = 8.4347028e-08
+deltaHovH = 0.0052374996
+REJECT: delta S = 16.29 start S = -3109.94318334 :end S = -3093.65485707
+MONITOR_FORCE_GAUGE   0.005499 0.0003011
+MONITOR_FORCE_FERMION0 0.0006113 0.001348
+source_norm in grsource 1051
+Iters for source 43
+Calling CG in update_leapfrog -- original action
+No of iteration in CG = 86
+fermion0 1050.9548 momenta 5289.63 plaquette -9395.0254 scalar action 130.47433sum -2923.9663
+Wilson Plaquette 5.3187418
+

@@ -4,7 +4,7 @@
 #ifndef _COMDEFS_H
 #define _COMDEFS_H
 #include "../include/int32type.h"
-#include "../include/su2.h"
+#include "../include/sp.h"
 
 // Arguments to the make_gather() routine
 #define FORWARDS         1

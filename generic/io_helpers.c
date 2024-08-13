@@ -3,7 +3,7 @@
 #include "generic_includes.h"
 #include "../include/io_lat.h"
 #include "../RHMC/lattice.h"
-#include "../include/su2.h"
+#include "../include/sp.h"
 #include <stdlib.h>
 // -----------------------------------------------------------------
 
@@ -58,14 +58,14 @@ void coldlat() {
   register int k,l,m;
   FORALLSITES(i, s) {
   for(dir= XUP; dir <= TUP ; dir++){
-  for(k=0; k < 2 ; k++){
-  for(l=0; l < 2 ; l++){
+  for(k=0; k < DIMF ; k++){
+  for(l=0; l < DIMF ; l++){
    
    s->link[dir].e[k][l] =cmplx(0.0,0.0);
                     }
          }
 
-   for(m=0 ;m < 2 ; m++){
+   for(m=0 ;m < DIMF ; m++){
    
    s->link[dir].e[m][m] = cmplx(1.0,0.0);
 
@@ -77,6 +77,21 @@ void coldlat() {
  
  
 }
+    FORALLSITES(i,s){
+
+	      clear_mat(&(s->sigma));
+	      for(m=0 ; m < NUMYUK ; m++){
+	      #ifdef SITERAND
+
+	            scalar_mult_add_matrix(&(s->sigma),&(Lambda2[m]),gaussian_rand_no(&(s->site_prn)),&(s->sigma));
+	      #else
+
+	            scalar_mult_add_matrix(&(s->sigma),&(Lambda2[m]), gaussian_rand_no(&node_prn),&(s->sigma));
+	      #endif
+
+	       }
+
+    }
 
 
 
@@ -99,26 +114,42 @@ void randomlat() {
   for (j=0  ;  j< 4  ; j++){
   for (m=0  ;  m < NUMGEN ; m++){
   
-  
-    clear_su2mat(&(s->temp_link[j]));
-    scalar_mult_add_su2_matrix(&(s->temp_link[j]),&(Lambda[m]), gaussian_rand_no(&(s->site_prn)) , &(s->temp_link[j])); 
+     
+    clear_mat(&(s->temp_link[j]));
+    scalar_mult_add_matrix(&(s->temp_link[j]),&(Lambda[m]),  0.5 * gaussian_rand_no(&(s->site_prn)) , &(s->temp_link[j])); 
    }
-   exp_su2_matrix(&(s->temp_link[j]),&(s->link[j]));
+   exp_matrix(&(s->temp_link[j]),&(s->link[j]));
    
 }
 #else
   for(j=0 ; j < 4 ; j++){
   for(m=0 ; m < NUMGEN ; m++){
   
-    clear_su2mat(&(s->temp_link[j]));
-    scalar_mult_add_su2_matrix(&(s->temp_link[j]), &(Lambda[m]) , gaussian_rand_no(&node_prn) , &(s->temp_link[j]));
+    clear_mat(&(s->temp_link[j]));
+    scalar_mult_add_matrix(&(s->temp_link[j]), &(Lambda[m]),  0.5 * gaussian_rand_no(&node_prn) , &(s->temp_link[j]));
   }
-   exp_su2_matrix(&(s->temp_link[j]),&(s->link[j]));
+   exp_matrix(&(s->temp_link[j]),&(s->link[j]));
    
 }
 #endif
    
 }
+
+ FORALLSITES(i,s){
+
+	   clear_mat(&(s->sigma));
+	   for(m=0 ; m < NUMYUK ; m++){
+           #ifdef SITERAND
+
+	      scalar_mult_add_matrix(&(s->sigma),&(Lambda2[m]), gaussian_rand_no(&(s->site_prn)),&(s->sigma));
+	   #else
+
+	      scalar_mult_add_matrix(&(s->sigma),&(Lambda2[m]),gaussian_rand_no(&node_prn),&(s->sigma));
+	   #endif
+
+	   }
+
+ }
 
 
 node0_printf("random gauge configuration loaded\n");

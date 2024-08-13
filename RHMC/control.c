@@ -1,7 +1,7 @@
 // -----------------------------------------------------------------
 // Main procedure for SU(2) gauge model with red. stagg'd fermions evolution and measurements
 #define CONTROL
-#include "su2_includes.h"
+#include "sp_includes.h"
 // -----------------------------------------------------------------
 
 
@@ -11,8 +11,8 @@ int main(int argc, char *argv[]) {
   int prompt;
  int traj_done, s_iters, avs_iters = 0, avm_iters = 0, Nmeas = 0;
  complex plp = cmplx(0.0, 0.0);
-  
-  
+ matrix *tmat = malloc(sizeof(*tmat));  
+ clear_mat(tmat);  
   
   double dtime;
 #ifdef CORR
@@ -30,8 +30,8 @@ int main(int argc, char *argv[]) {
   prompt = setup();
  
   
-  setup_lambda();
-  
+  setup_gamma();
+
   setup_rhmc();
 
   // Load input and run
@@ -60,6 +60,7 @@ int main(int argc, char *argv[]) {
 
 #ifdef CORR
       // Correlator measurements
+      epsilon();
       avm_iters += condensates();
 
       for (j = 0; j < Nsrc; j++) {
@@ -71,7 +72,7 @@ int main(int argc, char *argv[]) {
       
       plp = ploop(TUP);
       node0_printf("POLYAKOV LINE %.8g %.8g\n",plp.real, plp.imag);
-
+      w_loop();
       //rand_gauge();
 
       
